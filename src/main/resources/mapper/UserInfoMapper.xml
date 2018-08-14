@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pluten.shiro.mapper.UserMapper">
+
+    <!-- 开启二级缓存 -->
+    <!--<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>-->
+    <select id="selectPermByUser" parameterType="java.lang.String" resultType="com.pluten.shiro.bean.SysPermission" >
+        select p.cGuid,p.cName from role r
+        left join role_permiss rp on rp.roleId = r.cguid
+        left join permiss p on p.cguid = rp.permissId
+        where r.cName = #{role}
+    </select>
+
+    <select id="selectRoleByUser" parameterType="java.lang.String" resultType="com.pluten.shiro.bean.SysRole" >
+            select r.cGuid,r.cName from `user` u
+            left join user_role ur on ur.userId = u.cguid
+            left join role r on r.cguid = ur.roleId
+            where u.cName = #{userName}
+    </select>
+
+    <select id="selectOne" parameterType="java.lang.String" resultType="com.pluten.shiro.bean.UserInfo" >
+        select cGuid,cPassword as password,cName from user where cName = #{userName};
+    </select>
+
+  <!--  <select id="selectOne" parameterType="java.lang.String" resultType="com.pluten.shiro.bean.UserInfo" >
+        select * from sale_bill
+    </select>-->
+
+
+
+</mapper>
